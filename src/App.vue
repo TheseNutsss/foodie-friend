@@ -1,26 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <v-app>
+    <my-loader></my-loader>
+    <router-view></router-view>
+</v-app>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    mounted (){
+        if(sessionStorage.getItem('auth')){
+            console.log('+')
+            const user = JSON.parse(sessionStorage.getItem('auth'))
+            this.$store.commit('SET_AUTH', true)
+            this.$store.commit('SET_USER', user)
+        }
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
+
