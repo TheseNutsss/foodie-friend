@@ -224,7 +224,7 @@ export default {
             url.searchParams.set('maxheight', 1080)
             console.log(url.href)
             try {
-                const response = (await fetch(url.href)).url
+                const response = (await fetch(url.href, {mode: 'no-cors'})).url
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
                 console.log(error)
@@ -240,7 +240,7 @@ export default {
             url.searchParams.set('radius', params.radius)
             url.searchParams.set('key', API_KEY)
             try {
-                const response = await fetch(url.href)
+                const response = await fetch(url.href, {mode: 'no-cors'})
                 const data = (await response.json()).results
                 console.log('заведения',data)
                 data.forEach(place => {
@@ -258,7 +258,7 @@ export default {
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('place_id', state.placeInfo.place_id)
             try {
-                const response = await fetch(url.href)
+                const response = await fetch(url.href, {mode: 'no-cors'})
                 const data = (await response.json()).result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
