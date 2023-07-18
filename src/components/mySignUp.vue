@@ -2,6 +2,22 @@
 <v-sheet width="400" class="mx-auto pa-5" :elevation="15">
     <v-form v-model="isValid">
         <p class="text-h5 mb-2">Регистрация</p>
+        <v-alert
+        color="error"
+        icon="$error"
+        title="Ошибка"
+        closable
+        :text="errorText"
+        v-model="isError"
+        ></v-alert>
+        <v-alert
+        variant="tonal"
+        :title="alertTitle"
+        :text="alertText"
+        :type="alertType"
+        v-model="isAlert"
+        >
+        </v-alert>
         <v-text-field
         v-model="email"
         label="email"
@@ -29,7 +45,7 @@
         clearable
         ></v-text-field>
 
-        <v-btn type="submit" block class="mt-2 bg-indigo-lighten-1" :disabled="!isValid" :loading="isloading" @click.prevent="onSubmit">Зарегистрироваться</v-btn>
+        <v-btn type="submit" block class="mt-2 bg-indigo-lighten-1" :disabled="!isValid || isLoading" :loading="isLoading" @click.prevent="onSubmit">Зарегистрироваться</v-btn>
         <v-btn variant="text" block class="text-indigo-accent-3" @click="$router.push('/auth')">Войти</v-btn>
         <my-pop-up>Другие варианты регистрации</my-pop-up>
     </v-form>
@@ -37,6 +53,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     name: 'my-sign-up',
     data(){
@@ -45,7 +63,9 @@ export default {
             password: '',
             confirmPassword: '',
             isValid: false,
-            isloading: false,
+            isLoading: false,
+            errorText: '',
+            isError: false,
             emailRules: [
                 value => {
                     if (value) return true
@@ -72,12 +92,9 @@ export default {
             ],
             confirmPasswordRules: [
                 value => {
-                    if (value) return true
+                    if (value && value == this.password) return true
 
                     return 'Подтвердите пароль'
-                },
-                value => {
-                    if(value == this.password) return true
                 }
             ],
         }
@@ -87,7 +104,29 @@ export default {
             this.isLoading = true
             console.log('+')
             setTimeout(()=> (this.isLoading = false), 2000)
+            this.$store.dispatch('createUser', {
+                email: this.email,
+                password: this.password
+            }) 
         }
+    },
+    watch: {
+        '$store.state.CustomErrors.error'() {
+            this.isError = this.$store.state.CustomErrors.error
+            if(this.$store.state.CustomErrors.error){
+                this.errorText = this.$store.state.CustomErrors.error
+            } else {
+                this.errorText = ''
+            }
+        }
+    },
+    computed: {
+        ...mapState({
+        isAlert: state => state.Alert.isAlert,
+        alertTitle: state => state.Alert.alertTitle,
+        alertText: state => state.Alert.alertText,
+        alertType: state => state.Alert.alertType,
+        }),
     }
 }
 </script>

@@ -10,24 +10,42 @@
             :subtitle="userEmail"
             to="/user-profile"
             >
-                <template v-slot:prepend>
-                    <v-avatar>
-                        <v-img
-                            :src="userAvatar"
-                            alt="John"
-                        ></v-img>
-                    </v-avatar>
-                </template>
+              <template v-slot:prepend>
+                <v-avatar>
+                    <v-img
+                    :src="userPhoto"
+                    :lazy-src="userPhoto"
+                    aspect-ratio="1/1"
+                    >
+                        <template v-slot:placeholder>
+                            <div class="d-flex align-center justify-center fill-height" >
+                                <v-progress-circular
+                                color="grey-lighten-4"
+                                indeterminate
+                                :size="20"
+                                ></v-progress-circular>
+                            </div>
+                        </template>
+                    </v-img>
+                </v-avatar>
+              </template>
             </v-list-item>
         </v-list>
 
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
+            <v-list-item prepend-icon="mdi-map-search-outline" title="Поиск заведения" value="search" to="/application"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
+            <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
         </v-list>
+        <v-divider></v-divider>
+        <template v-slot:append>
+        <v-divider></v-divider>
+        <v-list density="compact" nav>
+            <v-list-item prepend-icon="mdi-logout" title="Выйти" value="Выйти" @click="$store.dispatch('signOut')"></v-list-item>
+        </v-list>
+        </template>
       </v-navigation-drawer>
     
 </template>
@@ -35,26 +53,24 @@
 <script>
 export default {
     name: 'my-header',
-    data (){
-        return {
-            userEmail: '',
-            userName: '',
-            userAvatar: '@/images/default-avatar.png',
-        }
+    computed: {
+        userInfo() {
+            return this.$store.state.auth.user.userData || {}
+        },
+        userName(){
+            const userInfo = Array.isArray(this.userInfo) ? this.userInfo : [this.userInfo]
+            const field = userInfo.find((field) => field.hasOwnProperty('Имя'))
+            return field ? field['Имя'] : ''
+        },
+        userPhoto(){
+            return this.$store.state.auth.user.photo_URL
+        },
+        userEmail(){
+            const userInfo = Array.isArray(this.userInfo) ? this.userInfo : [this.userInfo]
+            const field = userInfo.find((field) => field.hasOwnProperty('E-mail'))
+            return field ? field['E-mail'] : ''
+        },
     },
-    mounted(){
-        const userInfo = this.$store.state.auth.user
-        if(userInfo.email){
-            this.userEmail = userInfo.email
-        }
-        if(userInfo.photoURL){
-            this.userAvatar = userInfo.photoURL
-        }
-        if(userInfo.displayName){
-            this.userName = userInfo.displayName
-        }
-
-    }
 }
 </script>
 

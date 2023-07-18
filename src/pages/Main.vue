@@ -1,27 +1,51 @@
 <template>
+<my-place-info></my-place-info>
 <my-header></my-header>
+<v-main>
+    <v-container class="h-75">
+        <v-btn
+        prepend-icon="mdi-filter-outline"
+        class="bg-indigo-lighten-1"
+        @click="TOGGLE_FILTERS"
+        >
+        Фильтры
+        </v-btn>
+        <p>Хотите изменить вашу локацию?<br>
+        Для изменения локации необходимо включить режим редактирования
+        </p>
+        <v-btn
+        prepend-icon="mdi-check-bold"
+        class="bg-indigo-lighten-1"
+        @click="newUserLocation"
+        v-if="!editUserLocationListener"
+        >
+        Включить
+        </v-btn>
+        <v-btn
+        prepend-icon="mdi-cancel"
+        class="bg-indigo-lighten-1"
+        @click="removeEditUserLocationListener"
+        v-if="editUserLocationListener"
+        >
+        Выключить
+        </v-btn>
+    <my-map></my-map>
+    </v-container>
+</v-main>
+<my-filters></my-filters>
 </template>
 
 <script>
-
+import { mapActions, mapMutations, mapState } from "vuex"
 export default {
-    /* mounted() {
-        // Make an HTTP POST request to the Google Geolocation API
-        fetch('https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY', {
-        method: 'POST',
+    computed: {
+        ...mapState({
+            editUserLocationListener: state => state.googleMaps.editUserLocationListener,
         })
-        .then(response => response.json())
-        .then(data => {
-            const latitude = data.location.lat;
-            const longitude = data.location.lng;
-            console.log('Latitude:', latitude);
-            console.log('Longitude:', longitude);
-            // Use the latitude and longitude values as needed
-        })
-        .catch(error => {
-            console.error('Error getting geolocation:', error);
-        });
-
-    } */
+    },
+    methods: {
+        ...mapMutations(['TOGGLE_FILTERS']),
+        ...mapActions(['newUserLocation', 'removeEditUserLocationListener'])
+    },
 }
 </script>

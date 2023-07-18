@@ -2,6 +2,14 @@
 <v-sheet width="400" class="mx-auto pa-5" :elevation="15">
     <v-form v-model="isValid">
         <p class="text-h5 mb-2">Авторизация</p>
+        <v-alert
+        color="error"
+        icon="$error"
+        title="Ошибка"
+        closable
+        :text="errorText"
+        v-model="isError"
+        ></v-alert>
         <v-text-field
         v-model="email"
         label="email"
@@ -36,6 +44,8 @@ export default {
             password: '',
             isValid: false,
             isLoading: false,
+            errorText: '',
+            isError: false,
             emailRules: [
                 value => {
                     if (value) return true
@@ -67,6 +77,20 @@ export default {
             this.isLoading = true
             console.log('+')
             setTimeout(()=> (this.isLoading = false), 2000)
+            this.$store.dispatch('signIn', {
+                email: this.email,
+                password: this.password
+            })
+        }
+    },
+    watch: {
+        '$store.state.CustomErrors.error'() {
+            this.isError = this.$store.state.CustomErrors.error
+            if(this.$store.state.CustomErrors.error){
+                this.errorText = this.$store.state.CustomErrors.error
+            } else {
+                this.errorText = ''
+            }
         }
     }
 }

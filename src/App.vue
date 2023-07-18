@@ -7,13 +7,27 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
-    mounted (){
+    computed: {
+        ...mapState({
+            user: state => state.auth.user
+        }),
+    },
+    watch: {
+        user() {
+            // При изменении user запускаем подписку на изменения пользователя
+            //console.log('запустили сабскрайб', JSON.parse(sessionStorage.getItem('auth')).email)
+            //this.subscribeToUserChanges(JSON.parse(sessionStorage.getItem('auth')).email);
+        },
+    },
+    methods: {
+        ...mapActions(["subscribeToUserChanges"]), // Используем действие Vuex для подписки на изменения пользователя
+    },
+    created (){
         if(sessionStorage.getItem('auth')){
-            console.log('+')
-            const user = JSON.parse(sessionStorage.getItem('auth'))
+            this.subscribeToUserChanges(JSON.parse(sessionStorage.getItem('auth')).email)
             this.$store.commit('SET_AUTH', true)
-            this.$store.commit('SET_USER', user)
         }
     }
 }

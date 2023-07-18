@@ -2,6 +2,7 @@
      <v-overlay
       v-model="isLoading"
       class="align-center justify-center"
+      persistent
     >
       <v-progress-circular
         color="primary"
@@ -21,7 +22,6 @@ export default {
     },
     watch: {
       '$store.state.OverlayLoading.isLoading'(){
-        console.log('=')
         this.isLoading = this.$store.state.OverlayLoading.isLoading
       }
     },
