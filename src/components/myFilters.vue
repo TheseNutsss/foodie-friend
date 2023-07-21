@@ -121,16 +121,17 @@ export default {
     },
     methods: {
         ...mapMutations(['TOGGLE_FILTERS', 'SET_RADIUS', 'SET_ESTABLISHMENT_TYPE']),
-        ...mapActions(['searchEstablishment']),
+        ...mapActions(['searchPlace', 'generateURL']),
         updateInputRadius(newValue) {
             this.inputRadius = newValue
         },
-        applyFilters(){
+       async applyFilters(){
           this.usedFilters = {
             radius: this.inputRadius,
             placeType: this.establishmentType
           }
-          this.searchEstablishment({type: this.usedFilters.placeType, radius: this.usedFilters.radius})
+          const url = await this.generateURL({type: this.usedFilters.placeType, radius: this.usedFilters.radius})
+          await this.searchPlace(url)
           this.TOGGLE_FILTERS()
           console.log(this.usedFilters)
         },

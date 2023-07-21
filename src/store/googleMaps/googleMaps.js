@@ -1,3 +1,4 @@
+import { markRaw } from "vue"
 export default {
     state: {
         googleInstance: null,
@@ -122,7 +123,7 @@ export default {
             }
         },
         async newMarker({state, dispatch, commit}, markerInfo){
-            //console.log('newMarker')
+            console.log('newMarker')
             if(markerInfo.type === 'user'){
                 state.userMarker ? dispatch('removeMarker') : ''
                 const markerIcon = {
@@ -154,8 +155,7 @@ export default {
                         marker.setAnimation(state.googleInstance.maps.Animation.BOUNCE);
                     }
                 }
-                commit('SET_USER_MARKER', marker)
-
+                commit('SET_USER_MARKER', markRaw(marker))
             } else {
                 const image = 'https://firebasestorage.googleapis.com/v0/b/foodie-friend-241bf.appspot.com/o/icon-pizza.png?alt=media&token=66e58cbb-b499-493b-94b8-855f98f612c2'
                 const marker = new state.googleInstance.maps.Marker({
@@ -166,7 +166,7 @@ export default {
                     animation: state.googleInstance.maps.Animation.DROP  // Добавляем анимацию падения маркера
                 })
                 
-                commit('SET_PLACE_MARKERS', marker)
+                commit('SET_PLACE_MARKERS', markRaw(marker))
                 const infoWindow = new state.googleInstance.maps.InfoWindow({
                     content: `<h4 class="mb-1">${markerInfo.info.name}</h4>
                             <p class="mb-1">${markerInfo.info.vicinity}</p>
@@ -230,8 +230,28 @@ export default {
                 console.log(error)
             }
         },
-        async searchEstablishment({dispatch, state}, params){
-            console.log('searchEstablishment, params:', params)
+        async searchPlace({dispatch, state}, url){
+            console.log('searchPlace: ', url)
+            try {
+                const response = await fetch(url.href, {mode: 'no-cors'})
+                const data = await response.json()
+                console.log('заведения', data)
+                data.results.forEach(place => {
+                    dispatch('newMarker', {type: "place", info: place})
+                });
+                if (data.next_page_token) {
+                    // Если есть следующая страница результатов, делаем запрос с новым токеном
+                    setTimeout(function () {
+                        url.searchParams.set('pagetoken', data.next_page_token)
+                        dispatch('searchPlace', url)
+                    }, 2000); // Задержка между запросами, чтобы соответствовать ограничениям API
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        generateURL({state,dispatch}, params){
+            dispatch('removePlaceMarkers')
             const baseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
             const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
             const url = new URL(baseURL)
@@ -239,16 +259,7 @@ export default {
             url.searchParams.set('type', params.type)
             url.searchParams.set('radius', params.radius)
             url.searchParams.set('key', API_KEY)
-            try {
-                const response = await fetch(url.href, {mode: 'no-cors'})
-                const data = (await response.json()).results
-                console.log('заведения',data)
-                data.forEach(place => {
-                    dispatch('newMarker', {type: "establishment", info: place})
-                });
-            } catch (error) {
-                console.log(error)
-            }
+            return url
         },
         async getPlaceDetails({commit, state}){
             commit('SET_PLACE_LOADING')
@@ -270,7 +281,8 @@ export default {
             const listener = state.mapInstance.addListener("click", async (event) => {
                 commit('SET_USER_LOCATION', {latitude: event.latLng.lat(), longitude: event.latLng.lng()})
                 await dispatch('setLocationInDB', {latitude: event.latLng.lat(), longitude: event.latLng.lng()});
-                await dispatch('searchEstablishment', {type: rootState.Filters.establishmentType, radius: rootState.Filters.radius})
+                const url = await dispatch('generateURL', {type: rootState.Filters.establishmentType, radius: rootState.Filters.radius})
+                await dispatch('searchPlace', url)
                 state.googleInstance.maps.event.removeListener(listener)
                 commit('SET_EDIT_USER_LOCATION_LISTENER', null)
             });
@@ -282,23 +294,13 @@ export default {
             state.googleInstance.maps.event.removeListener(state.editUserLocationListener)
             commit('SET_EDIT_USER_LOCATION_LISTENER', null)
         },
-        async removePlaceMarkers({commit, state}){
-            
-            //console.log('Action: removePlaceMarkers', state.placeMarkers)
-            /* await state.placeMarkers.forEach(marker => {
+        removePlaceMarkers({commit, state}){
+            console.log('Action: removePlaceMarkers', state.placeMarkers)
+            state.placeMarkers.forEach(marker => {
                 marker.setMap(null)
             })
-            //await commit('SET_PLACE_MARKERS', null)
-            console.log(state.placeMarkers) */
-
-            /* const markersCopy = [...state.placeMarkers]; // Создаем копию массива маркеров
-            markersCopy.forEach((marker) => {
-                console.log(marker)
-                marker.setMap(null);
-            });
-
-            commit('SET_PLACE_MARKERS', null);
-            console.log(markersCopy); */
+            commit('SET_PLACE_MARKERS', null)
+            console.log(state.placeMarkers)
         }
 
     },

@@ -29,7 +29,6 @@
   <div ref="mapContainer" class="h-100 ma-2">
 
   </div>
-  <v-btn @click='removePlaceMarkers'>Удалить маркеры заведений</v-btn>
 </template>
 
 <script>
@@ -62,7 +61,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getUserLocation', 'newMarker','searchEstablishment', 'newUserLocation', 'removePlaceMarkers']),
+    ...mapActions(['getUserLocation', 'newMarker','searchPlace', 'newUserLocation', 'removePlaceMarkers', 'generateURL']),
     ...mapMutations(['SET_MAP', 'SET_GOOGLE', 'SET_MAP_LOADING']),
     async initMap() {
       this.SET_MAP_LOADING()
@@ -88,8 +87,9 @@ export default {
     async initialize(){
       await this.initMap();
       await this.getUserLocation();
-      await this.searchEstablishment({ radius: this.radius, type: this.establishmentType })
-      //this.newUserLocation()
+      const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
+      await this.searchPlace(url)
+      this.newUserLocation()
 
     }
   },
