@@ -89,7 +89,7 @@ export default {
       await this.getUserLocation();
       const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
       await this.searchPlace(url)
-      this.newUserLocation()
+      //this.newUserLocation()
 
     }
   },

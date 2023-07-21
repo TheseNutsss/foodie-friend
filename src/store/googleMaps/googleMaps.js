@@ -251,7 +251,8 @@ export default {
             }
         },
         generateURL({state,dispatch}, params){
-            dispatch('removePlaceMarkers')
+            console.log('generateURL')
+            state.placeMarkers.length ? dispatch('removePlaceMarkers') : ''
             const baseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
             const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
             const url = new URL(baseURL)
