@@ -9,6 +9,7 @@
         <v-toolbar
           dark
           color="indigo-lighten-1"
+          density="compact"
         >
           <v-btn
             icon
@@ -21,6 +22,7 @@
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
+              prepend-icon="mdi-check-outline"
               variant="text"
               @click="applyFilters"
             >

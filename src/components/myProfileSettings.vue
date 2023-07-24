@@ -1,14 +1,14 @@
 <template>
     <v-dialog
       persistent
-      width="1024"
+      class="w-100"
+      max-width="1024"
     >
       <v-card>
         <v-card-title>
           <span class="text-h5">Редактирование данных</span>
         </v-card-title>
         <v-card-text>
-          <v-container>
              <v-alert
             variant="tonal"
             :title="alertTitle"
@@ -17,7 +17,6 @@
             v-model="isAlert"
             >
             </v-alert>
-            <v-col>
                 <template v-for="(obj, index) in $store.state.auth.user.userData">
                     <template v-for="(value, key) in obj">
                     <v-row justify="start">
@@ -51,10 +50,7 @@
                     </v-row>
                     </template>
                 </template>
-            </v-col>
 
-          </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

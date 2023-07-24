@@ -11,7 +11,6 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
-  <h2 ref="h2">Карта</h2>
   <!-- <v-autocomplete
         :items="items"
         append-inner-icon="mdi-microphone"
@@ -26,7 +25,7 @@
         theme="light"
         variant="solo"
       ></v-autocomplete> -->
-  <div ref="mapContainer" class="h-100 ma-2">
+  <div ref="mapContainer" class="h-100">
 
   </div>
 </template>
