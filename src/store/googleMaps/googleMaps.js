@@ -224,7 +224,7 @@ export default {
             url.searchParams.set('maxheight', 1080)
             console.log(url.href)
             try {
-                const response = (await fetch(url.href, {mode: 'no-cors'})).url
+                const response = (await fetch(url.href)).url
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
                 console.log(error)
@@ -265,7 +265,7 @@ export default {
         },
         async getPlaceDetails({commit, state}){
             commit('SET_PLACE_LOADING')
-            const baseURL = 'https://cors-anywhere.herokuapp.com/git https://maps.googleapis.com/maps/api/place/details/json'
+            const baseURL = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json'
             const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
             const url = new URL(baseURL)
             url.searchParams.set('key', API_KEY)
