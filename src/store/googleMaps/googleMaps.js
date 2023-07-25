@@ -265,13 +265,13 @@ export default {
         },
         async getPlaceDetails({commit, state}){
             commit('SET_PLACE_LOADING')
-            const baseURL = 'https://maps.googleapis.com/maps/api/place/details/json'
+            const baseURL = 'https://cors-anywhere.herokuapp.com/git https://maps.googleapis.com/maps/api/place/details/json'
             const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
             const url = new URL(baseURL)
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('place_id', state.placeInfo.place_id)
             try {
-                const response = await fetch(url.href, {mode: 'no-cors'})
+                const response = await fetch(url.href)
                 const data = (await response.json()).result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
