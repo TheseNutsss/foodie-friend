@@ -233,7 +233,7 @@ export default {
         async searchPlace({dispatch, state}, url){
             console.log('searchPlace: ', url)
             try {
-                const response = await fetch(url.href, {mode: 'no-cors'})
+                const response = await fetch(url.href)
                 console.log("Response:", response)
                 const data = await response.json()
                 console.log('заведения', data)
