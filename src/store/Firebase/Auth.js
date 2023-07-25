@@ -24,7 +24,7 @@ export default {
                     name: '',
                     email: userObj.email,
                     password: userObj.password,
-                    photo_URL: 'https://firebasestorage.googleapis.com/v0/b/foodie-friend-241bf.appspot.com/o/default-avatar.png?alt=media&token=192a3a4f-67b1-44fd-80b5-ba8dc884c2d3',
+                    photo_URL: 'https://firebasestorage.googleapis.com/v0/b/foodie-friend-241bf.appspot.com/o/default-avatar.png?alt=media&token=0663b9ba-a68d-438c-8ef1-1b2244d3c3b7',
                     biography: '',
                     city_region: '',
                     culinary_interests: '',
