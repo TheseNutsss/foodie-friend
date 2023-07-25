@@ -3,46 +3,50 @@
     <v-form v-model="isValid">
         <p class="text-h5 mb-2">Регистрация</p>
         <v-alert
-        color="error"
-        icon="$error"
-        title="Ошибка"
-        closable
-        :text="errorText"
-        v-model="isError"
+            color="error"
+            icon="$error"
+            title="Ошибка"
+            closable
+            :text="errorText"
+            v-model="isError"
         ></v-alert>
         <v-alert
-        variant="tonal"
-        :title="alertTitle"
-        :text="alertText"
-        :type="alertType"
-        v-model="isAlert"
+            variant="tonal"
+            :title="alertTitle"
+            :text="alertText"
+            :type="alertType"
+            v-model="isAlert"
         >
         </v-alert>
         <v-text-field
-        v-model="email"
-        label="email"
-        :rules="emailRules"
-        prepend-icon="mdi-email-outline"
-        hint="Введите ваш email"
-        clearable
+            v-model="email"
+            label="email"
+            :rules="emailRules"
+            prepend-icon="mdi-email-outline"
+            hint="Введите ваш email"
+            clearable
         ></v-text-field>
 
         <v-text-field
-        v-model="password"
-        label="пароль"
-        :rules="passwordRules"
-        prepend-icon="mdi mdi-lock-outline"
-        hint="Введите ваш пароль"
-        clearable
+            v-model="password"
+            label="пароль"
+            :rules="passwordRules"
+            prepend-icon="mdi mdi-lock-outline"
+            hint="Введите ваш пароль"
+            :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="isPasswordVisible ? 'text' : 'password'"
+            @click:append-inner="isPasswordVisible = !isPasswordVisible"
         ></v-text-field>
         
         <v-text-field
-        v-model="confirmPassword"
-        label="подтвердите пароль"
-        :rules="confirmPasswordRules"
-        prepend-icon="mdi mdi-lock-outline"
-        hint="Подтвердите ваш пароль"
-        clearable
+            v-model="confirmPassword"
+            label="подтвердите пароль"
+            :rules="confirmPasswordRules"
+            prepend-icon="mdi mdi-lock-outline"
+            hint="Подтвердите ваш пароль"
+            :append-inner-icon="isRepeatPaswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="isRepeatPaswordVisible ? 'text' : 'password'"
+            @click:append-inner="isRepeatPaswordVisible = !isRepeatPaswordVisible"
         ></v-text-field>
 
         <v-btn type="submit" block class="mt-2 bg-indigo-lighten-1" :disabled="!isValid || isLoading" :loading="isLoading" @click.prevent="onSubmit">Зарегистрироваться</v-btn>
@@ -66,6 +70,8 @@ export default {
             isLoading: false,
             errorText: '',
             isError: false,
+            isPasswordVisible: false,
+            isRepeatPaswordVisible: false,
             emailRules: [
                 value => {
                     if (value) return true

@@ -25,9 +25,9 @@
             label="пароль"
             :rules="passwordRules"
             prepend-icon="mdi mdi-lock-outline"
+            hint="Введите ваш пароль"
             :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
             :type="isPasswordVisible ? 'text' : 'password'"
-            hint="Введите ваш пароль"
             @click:append-inner="isPasswordVisible = !isPasswordVisible"
         ></v-text-field>
 
