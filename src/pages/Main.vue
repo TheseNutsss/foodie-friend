@@ -10,13 +10,16 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex"
 export default {
+    watch: {
+        
+    },
     computed: {
         ...mapState({
             editUserLocationListener: state => state.googleMaps.editUserLocationListener,
         })
     },
     methods: {
-        ...mapMutations(['TOGGLE_FILTERS']),
+        ...mapMutations(['TOGGLE_FILTERS', 'SET_EDIT_USER_LOCATION_LISTENER']),
         ...mapActions(['newUserLocation', 'removeEditUserLocationListener'])
     },
 }

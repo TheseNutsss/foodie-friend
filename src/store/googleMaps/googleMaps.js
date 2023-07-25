@@ -279,6 +279,7 @@ export default {
             commit('SET_PLACE_LOADING')
         },
         async newUserLocation({state, commit, dispatch, rootState}){
+            console.log('newUserLocation', state.mapInstance)
             const listener = state.mapInstance.addListener("click", async (event) => {
                 commit('SET_USER_LOCATION', {latitude: event.latLng.lat(), longitude: event.latLng.lng()})
                 await dispatch('setLocationInDB', {latitude: event.latLng.lat(), longitude: event.latLng.lng()});
@@ -294,6 +295,7 @@ export default {
         removeEditUserLocationListener({state,commit}){
             state.googleInstance.maps.event.removeListener(state.editUserLocationListener)
             commit('SET_EDIT_USER_LOCATION_LISTENER', null)
+            console.log(state.editUserLocationListener)
         },
         removePlaceMarkers({commit, state}){
             console.log('Action: removePlaceMarkers', state.placeMarkers)

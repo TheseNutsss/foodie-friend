@@ -36,8 +36,6 @@
 
         <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-map-search-outline" title="Поиск заведения" value="search" to="/application"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-            <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <template v-slot:append>
@@ -56,35 +54,33 @@
         <template v-slot:prepend>
           <v-app-bar-nav-icon @click="isMenu = !isMenu" class="d-lg-none"></v-app-bar-nav-icon>
         </template>
-        <v-spacer></v-spacer>
-        <template v-slot:append>
-          <v-btn
-            @click="TOGGLE_FILTERS"
-            >
-          <v-icon>mdi-filter-outline</v-icon>
-          <template class="d-none d-sm-flex">ФИЛЬТРЫ</template>
-        </v-btn>
-        <v-btn
-            @click="newUserLocation"
-            v-if="!editUserLocationListener"
-            ><v-overlay
-            activator="parent"
-            location-strategy="connected"
-            scroll-strategy="close"
-        >
-            <v-alert type="success" text="Режим изменения локации включен"></v-alert>
-      </v-overlay>
-          <v-icon>mdi-map-marker-radius-outline</v-icon>
-          <template class="d-none d-sm-flex">ИЗМЕНИТЬ ЛОКАЦИЮ</template>
-        </v-btn>
-        <v-btn
-            @click="removeEditUserLocationListener"
-            v-if="editUserLocationListener"
-            >
-          <v-icon>mdi-map-marker-remove-outline</v-icon>
-          <template class="d-none d-sm-flex">ОТМЕНА</template>
-        </v-btn>
-        </template>
+  
+          <v-spacer></v-spacer>
+          <template v-slot:append v-if="showButton">
+            <v-btn @click="TOGGLE_FILTERS">
+              <v-icon>mdi-filter-outline</v-icon>
+              <template class="d-none d-sm-flex">ФИЛЬТРЫ</template>
+            </v-btn>
+
+            <v-btn @click="handleClick" v-if="!editUserLocationListener">
+              <v-icon>mdi-map-marker-radius-outline</v-icon>
+              <template class="d-none d-sm-flex">ИЗМЕНИТЬ ЛОКАЦИЮ</template>
+              <v-overlay
+                v-model="isAlertOn"
+                location-strategy="connected"
+                scroll-strategy="block"
+                class="align-center justify-center"
+              >
+                <v-alert type="success" text="Режим изменения локации включен"></v-alert>
+              </v-overlay>
+            </v-btn>
+
+            <v-btn @click="removeEditUserLocationListener" v-if="editUserLocationListener">
+              <v-icon>mdi-map-marker-remove-outline</v-icon>
+              <template class="d-none d-sm-flex">ОТМЕНА</template>
+            </v-btn>
+
+          </template>
         </v-app-bar>
 
 
@@ -126,8 +122,6 @@
 
         <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-map-search-outline" title="Поиск заведения" value="search" to="/application"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-            <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <template v-slot:append>
@@ -144,10 +138,22 @@
 import { mapActions, mapMutations, mapState } from "vuex"
 export default {
     name: 'my-header',
+    props: {
+      showButton: {
+        type: Boolean,
+        default: true, // По умолчанию кнопка показывается, если значение не передано
+      },
+    },
     data(){
         return {
             isMenu: null,
+            isAlertOn: false,
         }
+    },
+    watch: {
+      isAlertOn(){
+        this.isAlertOn ? setTimeout(() => {this.isAlertOn ? this.isAlertOn = !this.isAlertOn : ''}, 1500) : ''
+      }
     },
     computed: {
         ...mapState({
@@ -172,7 +178,14 @@ export default {
     },
     methods: {
         ...mapMutations(['TOGGLE_FILTERS']),
-        ...mapActions(['newUserLocation', 'removeEditUserLocationListener'])
-    }
+        ...mapActions(['newUserLocation', 'removeEditUserLocationListener']),
+        async handleClick(){
+          this.isAlertOn = !this.isAlertOn
+          await this.$nextTick()
+          setTimeout(() => {
+            this.newUserLocation();
+          }, 1000);
+        }
+    },
 }
 </script>

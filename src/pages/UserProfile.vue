@@ -1,21 +1,28 @@
 <template>
-<my-header>
+<my-header :showButton="false">
 </my-header>
     <v-main class="bg">
         <v-card
             class="customCard bg-teal-lighten-5"
             elevation="4"
             rounded
-            width="100%"
+            min-height="490"
             title="Профиль"
         >
-            <v-card-text class="">
+            <v-card-text class="h-100 w-100">
                 <v-row class="w-100 customRow d-flex">
                     <v-col
                     xs="12"
                     md="9"
                     class="table-column"
                     >
+                      <v-overlay
+          v-model="isLoading"
+          contained
+          class="align-center justify-center"
+        >
+          <v-progress-circular indeterminate></v-progress-circular>
+                      </v-overlay>
                         <template v-for="(obj, index) in $store.state.auth.user.userData">
                             <template v-for="(value, key) in obj">
                             <v-row justify="start">
@@ -78,13 +85,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
-  data (){
+    data (){
         return{
             isChangeAvatar: false,
             isProfileSettings: false,
+            isLoading: false
         }
+    },
+    watch: {
+        userData(){
+            this.isLoading = !this.userData
+        }
+    },
+    computed: {
+        ...mapState({
+            userData: state => state.auth.user.userData
+        })
     },
     methods: {
         toggleModal(){
@@ -94,6 +113,9 @@ export default {
             this.isProfileSettings = !this.isProfileSettings
         }
     },
+    mounted (){
+        this.isLoading = !this.userData
+    }
     
 }
 </script>
@@ -125,7 +147,7 @@ export default {
     }
 }
 .bg{
-    background-image: url('@/images/mapBg.jpg');
+    background-image: url('@/images/imageBg.jpg');
     background-size: cover;
 }
 </style>

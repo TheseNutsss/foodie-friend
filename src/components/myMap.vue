@@ -47,7 +47,9 @@ export default {
       isLoadingMap: state => state.googleMaps.isLoadingMap,
       userMarker: state => state.googleMaps.userMarker,
       radius: state => state.Filters.radius,
-      establishmentType: state => state.Filters.establishmentType
+      establishmentType: state => state.Filters.establishmentType,
+      editUserLocationListener: state => state.googleMaps.editUserLocationListener,
+      
     })
   },
   watch: {
@@ -61,7 +63,7 @@ export default {
   },
   methods: {
     ...mapActions(['getUserLocation', 'newMarker','searchPlace', 'newUserLocation', 'removePlaceMarkers', 'generateURL']),
-    ...mapMutations(['SET_MAP', 'SET_GOOGLE', 'SET_MAP_LOADING']),
+    ...mapMutations(['SET_MAP', 'SET_GOOGLE', 'SET_MAP_LOADING', 'SET_EDIT_USER_LOCATION_LISTENER']),
     async initMap() {
       this.SET_MAP_LOADING()
       const loader = new Loader({
@@ -84,6 +86,9 @@ export default {
       this.SET_MAP_LOADING()
     },
     async initialize(){
+      if(this.editUserLocationListener){
+        this.SET_EDIT_USER_LOCATION_LISTENER(null)
+      }
       await this.initMap();
       await this.getUserLocation();
       const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
@@ -92,7 +97,7 @@ export default {
 
     }
   },
-  mounted() {
+  created() {
     this.initialize()
   },
 }

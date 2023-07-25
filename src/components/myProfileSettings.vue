@@ -99,7 +99,6 @@ export default {
       ...mapActions(["DB_UPDATE_DATA", "SET_ALERT"]),
       async saveChanges() {
         // Сохраняем измененные поля в базе данных
-        console.log(this.modifiedFields)
         if ((Object.keys(this.modifiedFields)).length > 0) {
           // Выполняем код для сохранения измененных полей в базе данных
           const newData = {
@@ -109,6 +108,7 @@ export default {
           try{
             await this.DB_UPDATE_DATA(newData);
             this.SET_ALERT({isAlert: true, alertTitle: "Успех!", alertText: "Вы успешно изменили данные профиля", alertType: "success", timeout: 5000})
+            this.modifiedFields = []
           } catch (error) {
             this.SET_ALERT({isAlert: true, alertTitle: "Ошибка!", alertText: "При изменение данных вознкикла ошибка", alertType: "error", timeout: 5000})
           }
@@ -121,9 +121,7 @@ export default {
           value = ""
         }
         if (value !== field[key]) {
-          console.log(key, value)
           const index = this.modifiedFields.findIndex((obj)=> obj.hasOwnProperty(key))
-          console.log(index)
           if(index !== -1){
             this.modifiedFields[index][key] = value
           } else {
@@ -133,10 +131,8 @@ export default {
           console.log('delete')
           const objToRemove = this.modifiedFields.findIndex((obj)=> obj.hasOwnProperty(key))
           this.modifiedFields.splice(objToRemove, 1)
-          console.log(this.modifiedFields)
         }
-        console.log(this.modifiedFields)
       },
-      },
+    },
 }
 </script>

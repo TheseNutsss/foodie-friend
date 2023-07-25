@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style>
-
+*{
+    font-family: 'Oswald', sans-serif;
+}
 </style>
 

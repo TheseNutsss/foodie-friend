@@ -37,7 +37,7 @@
           <v-list-subheader>Радиус поиска</v-list-subheader>
           <v-list-item>
               <v-slider
-                :value="inputRadius"
+                v-model="inputRadius"
                 :max="20000"
                 :min="100"
                 :step="100"
