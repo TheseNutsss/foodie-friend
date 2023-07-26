@@ -224,7 +224,7 @@ export default {
             url.searchParams.set('maxheight', 1080)
             console.log(url.href)
             try {
-                const response = (await fetch(url.href, { mode: 'no-cors' })).url
+                const response = (await fetch(url.href)).url
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
                 console.log(error)
@@ -233,7 +233,7 @@ export default {
         async searchPlace({dispatch, state}, url){
             console.log('searchPlace: ', url)
             try {
-                const response = await fetch(url.href, { mode: 'no-cors' })
+                const response = await fetch(url.href)
                 console.log("Response:", response)
                 const data = await response.json()
                 console.log('заведения', data)
@@ -272,7 +272,7 @@ export default {
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('place_id', state.placeInfo.place_id)
             try {
-                const response = await fetch(url.href, { mode: 'no-cors' })
+                const response = await fetch(url.href)
                 const data = (await response.json()).result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
