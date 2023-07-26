@@ -3,14 +3,6 @@
     <v-form v-model="isValid">
         <p class="text-h5 mb-2">Регистрация</p>
         <v-alert
-            color="error"
-            icon="$error"
-            title="Ошибка"
-            closable
-            :text="errorText"
-            v-model="isError"
-        ></v-alert>
-        <v-alert
             variant="tonal"
             :title="alertTitle"
             :text="alertText"

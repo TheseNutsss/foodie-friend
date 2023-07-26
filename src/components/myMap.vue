@@ -11,20 +11,6 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
-  <!-- <v-autocomplete
-        :items="items"
-        append-inner-icon="mdi-microphone"
-        auto-select-first
-        class="flex-full-width"
-        density="comfortable"
-        item-props
-        menu-icon=""
-        placeholder="Search Google or type a URL"
-        prepend-inner-icon="mdi-magnify"
-        rounded
-        theme="light"
-        variant="solo"
-      ></v-autocomplete> -->
   <div ref="mapContainer" class="h-100">
 
   </div>
@@ -67,7 +53,7 @@ export default {
     async initMap() {
       this.SET_MAP_LOADING()
       const loader = new Loader({
-        apiKey: "AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ",
+        apiKey: process.env.VUE_APP_API_KEY,
         version: "weekly",
       });
       try {
@@ -93,8 +79,6 @@ export default {
       await this.getUserLocation();
       const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
       await this.searchPlace(url)
-      //this.newUserLocation()
-
     }
   },
   created() {

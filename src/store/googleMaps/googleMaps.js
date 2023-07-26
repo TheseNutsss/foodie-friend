@@ -215,9 +215,9 @@ export default {
             commit('SET_USER_MARKER', null)
         },
         async getPhotos({context, commit}, photoReference){
-            const baseURL = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/photo'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/photo'
             const url = new URL(baseURL)
-            const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
+            const API_KEY = process.env.VUE_APP_API_KEY
             url.searchParams.set('photo_reference', photoReference)
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('maxwidth', 1920)
@@ -254,8 +254,8 @@ export default {
         generateURL({state,dispatch}, params){
             console.log('generateURL')
             state.placeMarkers.length ? dispatch('removePlaceMarkers') : ''
-            const baseURL = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json'
-            const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+            const API_KEY = process.env.VUE_APP_API_KEY
             const url = new URL(baseURL)
             url.searchParams.set('location', `${state.userLocation.latitude}, ${state.userLocation.longitude}`)
             url.searchParams.set('type', params.type)
@@ -265,8 +265,8 @@ export default {
         },
         async getPlaceDetails({commit, state}){
             commit('SET_PLACE_LOADING')
-            const baseURL = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json'
-            const API_KEY = 'AIzaSyAyKysGZvYN-Wy_yef7sGFf3qucqYrnOqQ'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/details/json'
+            const API_KEY = process.env.VUE_APP_API_KEY
             const url = new URL(baseURL)
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('place_id', state.placeInfo.place_id)
