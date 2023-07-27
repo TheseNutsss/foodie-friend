@@ -216,6 +216,7 @@ export default {
             commit('SET_USER_MARKER', null)
         },
         async getPhotos({context, commit}, photoReference){
+            console.log('getPhotos', photoReference)
             const baseURL = 'http://localhost:3001/foodieFriend/https://maps.googleapis.com/maps/api/place/photo'
             const url = new URL(baseURL)
             const API_KEY = process.env.VUE_APP_API_KEY
