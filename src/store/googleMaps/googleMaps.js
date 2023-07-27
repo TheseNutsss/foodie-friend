@@ -225,7 +225,7 @@ export default {
             url.searchParams.set('maxheight', 1080)
             console.log(url.href)
             try {
-                const response = (await axios.get(url.href)).url
+                const response = await axios.get(url.href)
                 console.log("photos", response)
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
