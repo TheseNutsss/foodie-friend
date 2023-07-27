@@ -226,6 +226,7 @@ export default {
             console.log(url.href)
             try {
                 const response = (await axios.get(url.href)).url
+                console.log("photos", response)
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
                 console.log(error)
