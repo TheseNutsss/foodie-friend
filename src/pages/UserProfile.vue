@@ -43,7 +43,7 @@
                             </template>
                         </template>
                         <div class="d-flex justify-end mt-5">
-                        <v-btn prepend-icon="mdi-file-edit" class="bg-indigo-lighten-1 text-caption d-flex d-md-none" @click="toggleProfileSettings"
+                        <v-btn prepend-icon="mdi-file-edit" class="bg-indigo-lighten-1 d-flex d-md-none" @click="toggleProfileSettings"
                         >
                             <template v-slot:prepend>
                             <v-icon color="white"></v-icon>
@@ -68,7 +68,7 @@
                             </v-avatar>
                             <v-btn class="bg-indigo-lighten-1" @click="toggleModal" prepend-icon="mdi-image-edit">Изменить аватар</v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn prepend-icon="mdi-file-edit" class="bg-indigo-lighten-1 text-caption d-none d-md-flex" @click="toggleProfileSettings"
+                            <v-btn prepend-icon="mdi-file-edit" class="bg-indigo-lighten-1 d-none d-md-flex" @click="toggleProfileSettings"
                             >
                                 <template v-slot:prepend>
                                 <v-icon color="white"></v-icon>
