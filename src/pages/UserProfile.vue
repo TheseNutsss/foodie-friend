@@ -47,7 +47,7 @@
                         >
                             <template v-slot:prepend>
                             <v-icon color="white"></v-icon>
-                        </template>Редактировать данные
+                        </template>ИЗМЕНИТЬ ДАННЫЕ
                         </v-btn>
                         </div>
                     </v-col> 
@@ -66,13 +66,13 @@
                                     </template>
                                 </v-img>
                             </v-avatar>
-                            <v-btn class="bg-indigo-lighten-1" @click="toggleModal">Изменить аватар</v-btn>
+                            <v-btn class="bg-indigo-lighten-1" @click="toggleModal" prepend-icon="mdi-image-edit">Изменить аватар</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn prepend-icon="mdi-file-edit" class="bg-indigo-lighten-1 text-caption d-none d-md-flex" @click="toggleProfileSettings"
                             >
                                 <template v-slot:prepend>
                                 <v-icon color="white"></v-icon>
-                            </template>Редактировать данные
+                            </template>ИЗМЕНИТЬ ДАННЫЕ
                             </v-btn>
                         </div>
                     </v-col>
