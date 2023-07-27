@@ -274,7 +274,7 @@ export default {
             url.searchParams.set('place_id', state.placeInfo.place_id)
             try {
                 const response = await axios.get(url.href)
-                const data = (await response.json()).result
+                const data = await response.data.result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
                 console.log(error)
