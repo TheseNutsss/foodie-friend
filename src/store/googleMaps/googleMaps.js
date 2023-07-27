@@ -235,8 +235,8 @@ export default {
             console.log('searchPlace: ', url)
             try {
                 const response = await axios.get(url.href)
-                console.log("Response:", response)
-                const data = await response.json()
+                console.log("Response:", response.data)
+                const data = await response.data
                 console.log('заведения', data)
                 data.results.forEach(place => {
                     dispatch('newMarker', {type: "place", info: place})
