@@ -217,7 +217,7 @@ export default {
         },
         async getPhotos({context, commit}, photoReference){
             console.log('getPhotos', photoReference)
-            const baseURL = '/google-api/https://maps.googleapis.com/maps/api/place/photo'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/photo'
             const url = new URL(baseURL)
             const API_KEY = process.env.VUE_APP_API_KEY
             url.searchParams.set('photo_reference', photoReference)
@@ -226,7 +226,7 @@ export default {
             url.searchParams.set('maxheight', 1080)
             console.log(url.href)
             try {
-                const response = await axios.get(url.href)
+                const response = await axios.get("/google-api/"+ url.href)
                 console.log("photos", response)
                 commit('SET_PLACE_PHOTO', response)
             } catch (error) {
@@ -236,7 +236,7 @@ export default {
         async searchPlace({dispatch, state}, url){
             console.log('searchPlace: ', url)
             try {
-                const response = await axios.get(url.href)
+                const response = await axios.get("/google-api/"+url.href)
                 console.log("Response:", response.data)
                 const data = await response.data
                 console.log('заведения', data)
@@ -257,7 +257,7 @@ export default {
         generateURL({state,dispatch}, params){
             console.log('generateURL')
             state.placeMarkers.length ? dispatch('removePlaceMarkers') : ''
-            const baseURL = '/google-api/https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
             const API_KEY = process.env.VUE_APP_API_KEY
             const url = new URL(baseURL)
             url.searchParams.set('location', `${state.userLocation.latitude}, ${state.userLocation.longitude}`)
@@ -269,13 +269,13 @@ export default {
         },
         async getPlaceDetails({commit, state}){
             commit('SET_PLACE_LOADING')
-            const baseURL = '/google-api/https://maps.googleapis.com/maps/api/place/details/json'
+            const baseURL = 'https://maps.googleapis.com/maps/api/place/details/json'
             const API_KEY = process.env.VUE_APP_API_KEY
             const url = new URL(baseURL)
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('place_id', state.placeInfo.place_id)
             try {
-                const response = await axios.get(url.href)
+                const response = await axios.get("/google-api/" + url.href)
                 const data = await response.data.result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
