@@ -11,9 +11,8 @@ app.get('/google-api/:url', async (req, res) => {
     const { url } = req.params;
     const { query } = req;
     
-    const response = await axios.get(url, {
-      params: query,
-    });
+    const response = await axios.get(url)
+      
 
     res.json(response.data);
   } catch (error) {
