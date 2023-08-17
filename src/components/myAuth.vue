@@ -79,7 +79,6 @@ export default {
     methods: {
         onSubmit(){
             this.isLoading = true
-            console.log('+')
             setTimeout(()=> (this.isLoading = false), 2000)
             this.$store.dispatch('signIn', {
                 email: this.email,

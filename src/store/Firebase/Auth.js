@@ -8,7 +8,6 @@ export default {
     },
     mutations: {
         SET_USER(state, user){
-            console.log('SET_USER')
             state.user = user
         },
         SET_AUTH(state, payload){
@@ -23,7 +22,6 @@ export default {
                 const userObjInDB = {
                     name: '',
                     email: userObj.email,
-                    password: userObj.password,
                     photo_URL: 'https://firebasestorage.googleapis.com/v0/b/foodie-friend-241bf.appspot.com/o/default-avatar.png?alt=media&token=0663b9ba-a68d-438c-8ef1-1b2244d3c3b7',
                     biography: '',
                     city_region: '',
@@ -54,7 +52,6 @@ export default {
                 context.commit('SET_AUTH', true)
                 context.dispatch('SET_ALERT', {isAlert: true, alertTitle: "Успех!", alertText: "Вы успешно изменили данные профиля", alertType: "success", timeout: 5000})
             } catch (error) {
-                console.log(error)
                 context.dispatch('MATCH_FIREBASE_ERROR', error)
             }
         },
@@ -67,7 +64,6 @@ export default {
                 context.dispatch('subscribeToUserChanges', user.email)
                 context.commit('SET_AUTH', true)
             } catch (error){
-                console.log(error)
                 context.dispatch('MATCH_FIREBASE_ERROR', error)
             }       
         },
@@ -79,7 +75,6 @@ export default {
                 const userObjInDB = {
                     name: user.displayName,
                     email: user.email,
-                    password: '',
                     photo_URL: user.photoURL,
                     biography: '',
                     city_region: '',
@@ -112,7 +107,6 @@ export default {
                 context.dispatch('subscribeToUserChanges', user.email)
                 context.commit('SET_AUTH', true);
               } catch (error) {
-                console.log(error);
                 context.dispatch('SET_ERROR_TIMEOUT', {error: error, time: 5000})
               }
         },
@@ -125,7 +119,6 @@ export default {
                     context.commit('SET_AUTH', false)
                     context.dispatch('loading', {time: 1000, redirectTo: '/auth'})
                 }).catch((error) => {
-                    console.log(error)
                 });
         }    
     },

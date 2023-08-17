@@ -22,7 +22,7 @@
         type="warning"
         variant="tonal"
         closable
-        text='Вы запретили приложению использование вашей геолокации. Для отображения списка заведений вам нужно либо обновить страницу и разрешить использование геолокации либо в меню нажать "изменить локацию" и выбрать на карте место, в радиусе которого вы хотите найти заведение'
+        text='Вы запретили приложению использование вашей геолокации. Для отображения списка заведений вам нужно разрешить использование геолокации и обновить страницу либо в меню нажать "изменить локацию" и выбрать на карте место, в радиусе которого вы хотите найти заведение'
       ></v-alert>
       </v-card>
     </v-overlay>
@@ -79,11 +79,9 @@ export default {
           center: { lat: 49.149826, lng: 32.283336 },
           zoom: 8,
         });
-        this.SET_GOOGLE(google)
-        console.log('Засетил google instance', map)
         this.SET_MAP(map)
       } catch (error) {
-        console.error('Ошибка загрузки Google Maps API:', error);
+
       }
       this.SET_MAP_LOADING()
     },
@@ -93,7 +91,6 @@ export default {
       }
       await this.initMap();
       const userLocation = await this.getUserLocation();
-      console.log(userLocation)
       if(userLocation){
         const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
         await this.searchPlace(url)

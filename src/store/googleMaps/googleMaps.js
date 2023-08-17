@@ -70,13 +70,13 @@ export default {
     },
     actions: {
         setLocationInDB(context, location){
-            console.log('setLocationInDB')
+           // console.log('setLocationInDB')
             context.dispatch('DB_UPDATE_DATA', ({email: JSON.parse(sessionStorage.getItem('auth')).email, data: {
                 location: location
             }}))
         },
         async getUserLocation({commit, dispatch}){
-            console.log('getUserLocation')
+            //console.log('getUserLocation')
             const handleSuccess = (position) => {
                 let userLatitude = position.coords.latitude;
                 let userLongitude = position.coords.longitude;
@@ -126,7 +126,7 @@ export default {
               });
         },
         async newMarker({state, dispatch, commit}, markerInfo){
-            console.log('newMarker')
+            //console.log('newMarker')
             if(markerInfo.type === 'user'){
                 state.userMarker ? dispatch('removeMarker') : ''
                 const markerIcon = {
@@ -213,12 +213,12 @@ export default {
             }
         },
         removeMarker({commit, state}){
-            console.log('removeMarker')
+           // console.log('removeMarker')
             state.userMarker.setMap(null)
             commit('SET_USER_MARKER', null)
         },
         async getPhotos({context, commit}, photoReference){
-            console.log('getPhotos', photoReference)
+            //console.log('getPhotos', photoReference)
             const baseURL = 'https://server-neon-tau.vercel.app/foodieFriend/photo'
             const url = new URL(baseURL)
             const API_KEY = process.env.VUE_APP_API_KEY
@@ -236,7 +236,7 @@ export default {
             }
         },
         async searchPlace({dispatch, state}, url){
-            console.log('searchPlace')
+            //console.log('searchPlace')
             try {
                 const response = await axios.get(url.href)
                 const data = await response.data
