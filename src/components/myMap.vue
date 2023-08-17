@@ -60,8 +60,8 @@ export default {
         const google = await loader.load()
         const map = new google.maps.Map(this.$refs.mapContainer, {
           mapId: 'bc3c585d615f6a6',
-          center: { lat: -34.397, lng: 150.644 },
-          zoom: 8,
+          center: { lat: 49.149826, lng: 32.283336 },
+          zoom: 3,
         });
         this.SET_GOOGLE(google)
         console.log('Засетил google instance', map)
@@ -76,9 +76,11 @@ export default {
         this.SET_EDIT_USER_LOCATION_LISTENER(null)
       }
       await this.initMap();
-      await this.getUserLocation();
-      const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
-      await this.searchPlace(url)
+      const userLocation = await this.getUserLocation();
+      if(userLocation){
+        const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
+        await this.searchPlace(url)
+      }
     }
   },
   created() {
