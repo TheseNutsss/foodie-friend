@@ -105,11 +105,6 @@ export default {
             }
         }
     },
-    mounted(){
-        setInterval(()=> {
-            console.log(this.showLoadMoreButton, this.totalReviewsCount, this.displayedReviewsCount)
-        },5000)
-    }
 }
 </script>
 
