@@ -59,6 +59,7 @@ export default {
             isReviewForm: state => state.RatingsAndReviews.isReviewForm,
             isLoading: state => state.RatingsAndReviews.isLoading,
             isReviews: state => state.RatingsAndReviews.isReviews,
+            placeDetails: state => state.googleMaps.placeDetails,
         }),
         ...mapGetters([
             'getIsAlert',
@@ -69,7 +70,7 @@ export default {
     },
     methods: {
         ...mapMutations(['SET_REVIEW_FORM_FLAG', 'SET_REVIEWS_FLAG']),
-        ...mapActions(['DB_UPDATE_REVIEW', 'SET_ALERT', 'getPlaceDetails']),
+        ...mapActions(['DB_UPDATE_REVIEW', 'SET_ALERT', 'getPlaceDetails', 'DB_GET_PLACE', 'DB_CREATE_PLACE']),
         async validateForm () {
             this.isValid = true
             if(this.rating === null){
@@ -97,6 +98,10 @@ export default {
                     rating: this.rating
                 }
                 try {
+                    const place = await this.DB_GET_PLACE(this.placeDetails.place_id)
+                    if(!place){
+                        await this.DB_CREATE_PLACE(this.placeDetails)
+                    }
                     await this.DB_UPDATE_REVIEW(review)
                     this.close()
                     this.SET_ALERT({isAlert: true, alertType: 'success', alertTitle: 'Успех!', alertText: 'Отзыв успешно добавлен!', timeout: 5000})

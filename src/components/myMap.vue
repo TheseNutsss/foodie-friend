@@ -11,6 +11,21 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
+    <v-overlay
+      v-model="locationDisabled"
+      class="align-center justify-center"
+      contained
+      persistent
+    ><v-card>
+      <v-alert
+        v-model="locationDisabled"
+        type="warning"
+        variant="tonal"
+        closable
+        text='Вы запретили приложению использование вашей геолокации. Для отображения списка заведений вам нужно либо обновить страницу и разрешить использование геолокации либо в меню нажать "изменить локацию" и выбрать на карте место, в радиусе которого вы хотите найти заведение'
+      ></v-alert>
+      </v-card>
+    </v-overlay>
   <div ref="mapContainer" class="h-100">
 
   </div>
@@ -23,6 +38,7 @@ export default {
   data(){
     return {
       userMarkerMap: null,
+      locationDisabled: false
     }
   },
   name: 'my-map',
@@ -61,7 +77,7 @@ export default {
         const map = new google.maps.Map(this.$refs.mapContainer, {
           mapId: 'bc3c585d615f6a6',
           center: { lat: 49.149826, lng: 32.283336 },
-          zoom: 3,
+          zoom: 8,
         });
         this.SET_GOOGLE(google)
         console.log('Засетил google instance', map)
@@ -77,9 +93,12 @@ export default {
       }
       await this.initMap();
       const userLocation = await this.getUserLocation();
+      console.log(userLocation)
       if(userLocation){
         const url = await this.generateURL({ radius: this.radius, type: this.establishmentType })
         await this.searchPlace(url)
+      } else {
+        this.locationDisabled = true
       }
     }
   },

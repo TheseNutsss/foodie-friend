@@ -80,7 +80,8 @@ export default {
             this.SET_LOADING_REVIEWS_AND_RATINGS()
             this.DB_GET_PLACE(this.placeDetails.place_id)
             .then((data)=> {
-                if(data.data().userReviews.length){
+                if(data){
+                if(data?.data().userReviews.length){
                     const newReviews = data.data().userReviews.slice(
                     this.displayedReviewsCount,
                     this.displayedReviewsCount +5
@@ -88,6 +89,7 @@ export default {
                     this.SET_REVIEWS([...this.reviews, ...newReviews])
                     this.displayedReviewsCount += newReviews.length
                     this.totalReviewsCount = data.data().userReviews.length
+                }
                 }
             })
             this.SET_LOADING_REVIEWS_AND_RATINGS()

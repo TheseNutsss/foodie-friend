@@ -4,7 +4,7 @@
     transition="dialog-top-transition"
     >
         <v-card
-        class="w-100 fill-height"
+        class=""
         > <v-overlay
           v-model="isLoadingPlace"
           contained
@@ -41,14 +41,15 @@
                     ({{ placeInfo.user_ratings_total }})
                 </span>
             </v-card-subtitle>
-            <v-card-text>
-                <v-carousel show-arrows="hover" v-if="placePhoto.length">
+            <v-card-text class="height">
+                <v-carousel show-arrows="hover" class="fill-height" v-if="placePhoto.length">
                     <v-carousel-item v-for="(slide, i) in placePhoto"
                         :src="slide"
-                        cover
+                        contain
                         :key="i"
                     ></v-carousel-item>
                 </v-carousel>
+                <v-img src="https://firebasestorage.googleapis.com/v0/b/foodie-friend-241bf.appspot.com/o/no%20image.png?alt=media&token=8d8030ac-2fba-48be-a006-b3a65c8f07fe" contain v-else></v-img>
             </v-card-text>
             <v-card-actions>
                 <v-btn
@@ -183,5 +184,13 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
+}
+.height {
+    height: 90vh;
+}
+@media screen and (max-width: 860px) {
+  .height{
+    height: auto;
+  }   
 }
 </style>

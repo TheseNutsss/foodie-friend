@@ -57,7 +57,7 @@
   
           <v-spacer></v-spacer>
           <template v-slot:append v-if="showButton">
-            <v-btn @click="TOGGLE_FILTERS">
+            <v-btn @click="TOGGLE_FILTERS" v-if="userLocation">
               <v-icon>mdi-filter-outline</v-icon>
               <template class="d-none d-sm-flex">ФИЛЬТРЫ</template>
             </v-btn>
@@ -158,6 +158,7 @@ export default {
     computed: {
         ...mapState({
             editUserLocationListener: state => state.googleMaps.editUserLocationListener,
+            userLocation: state => state.googleMaps.userLocation,
         }),
         userInfo() {
             return this.$store.state.auth.user.userData || {}
