@@ -92,7 +92,7 @@ export default {
               const handleError = (error) => {
                 return new Promise((resolve, reject) => {
                   if (error.code === error.PERMISSION_DENIED) {
-                    console.log('User denied location permission.');
+                    //console.log('User denied location permission.');
                     resolve(false);
                   } else {
                     console.log('Error getting location:', error.message);

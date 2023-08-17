@@ -87,10 +87,8 @@ export default {
             }
         },
         subscribeToUserChanges({commit, state}, userEmail) {
-            console.log("subscribeToUserChanges")
             // Создаем подписку на изменения документа пользователя
             const subscribe = onSnapshot(doc(db, "Users", userEmail), (doc) => {
-                console.log("Current data: ", doc.data());
                 // Обновляем данные пользователя в хранилище Vuex
                 const user = doc.data();
                 commit('SET_USER', user)
