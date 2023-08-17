@@ -217,7 +217,7 @@ export default {
         },
         async getPhotos({context, commit}, photoReference){
             console.log('getPhotos', photoReference)
-            const baseURL = 'http://localhost:3001/foodieFriend/photo'
+            const baseURL = 'https://server-neon-tau.vercel.app/foodieFriend/photo'
             const url = new URL(baseURL)
             const API_KEY = process.env.VUE_APP_API_KEY
             url.searchParams.set('photo_reference', photoReference)
@@ -258,7 +258,7 @@ export default {
         generateURL({state,dispatch}, params){
             console.log('generateURL')
             state.placeMarkers.length ? dispatch('removePlaceMarkers') : ''
-            const baseURL = 'http://localhost:3001/foodieFriend/nearbysearch/json'
+            const baseURL = 'https://server-neon-tau.vercel.app/foodieFriend/nearbysearch/json'
             const API_KEY = process.env.VUE_APP_API_KEY
             const url = new URL(baseURL)
             url.searchParams.set('location', `${state.userLocation.latitude}, ${state.userLocation.longitude}`)
