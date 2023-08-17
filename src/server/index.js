@@ -21,6 +21,10 @@ app.get('/google-api/:url', async (req, res) => {
   }
 });
 
+app.get('/google-api', (req, res) => {
+  res.status(200).json("Сервер работает")
+})
+
 app.listen(8080, () => {
   console.log('Server is running on port 3000');
 });
