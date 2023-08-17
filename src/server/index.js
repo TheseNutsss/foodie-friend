@@ -11,7 +11,7 @@ app.get('/google-api/:url', async (req, res) => {
     const { url } = req.params;
     const { query } = req;
     
-    const response = await axios.get(url)
+    const response = await axios.get(decodeURIComponent(url))
       
 
     res.json(response.data);
@@ -21,6 +21,6 @@ app.get('/google-api/:url', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(8080, () => {
   console.log('Server is running on port 3000');
 });
