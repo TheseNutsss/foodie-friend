@@ -10,7 +10,7 @@ export default {
     },
     actions: {
         async DB_CREATE_USER(context, userData){
-            console.log('DB_CREATE_USER')
+            //console.log('DB_CREATE_USER')
             try{
                 const docSnap = await getDoc(doc(db, 'Users', userData.email))
                 if (!docSnap.exists()) {
@@ -21,7 +21,7 @@ export default {
             }
         },
         async DB_GET_USER(context, userEmail){
-            console.log('DB_GET_USER')
+            //console.log('DB_GET_USER')
             try {
                 const docSnap = await getDoc(doc(db, 'Users', userEmail))
                 if (docSnap.exists()) {
@@ -33,7 +33,7 @@ export default {
         },
         async DB_UPLOAD_AVATAR(context, file){
             context.commit('SET_LOADING', true)
-            console.log(file)
+            //console.log(file)
             const uniqueFileName = `${Date.now()}_${file.name}`
             const storageRef = ref(storage, `users-avatars/${uniqueFileName}`);
             try {
@@ -59,7 +59,7 @@ export default {
             }
         },
         async DB_UPDATE_DATA(context, newData){
-            console.log('DB_UPDATE_DATA')
+            //console.log('DB_UPDATE_DATA')
             const docRef = doc(db, 'Users', newData.email)
             try {
                 if(newData.hasOwnProperty('userData')){
@@ -100,10 +100,10 @@ export default {
                 state.dbUserListener()
                 state.dbUserListener = null
             }
-            console.log('unsubscribed')
+            //console.log('unsubscribed')
         },
         async DB_GET_PLACE({state}, placeId){
-            console.log('DB_GET_PLACE', placeId)
+            //console.log('DB_GET_PLACE', placeId)
             try {
                 const docSnap = await getDoc(doc(db, 'Places', placeId))
                 if (docSnap.exists()) {
@@ -112,11 +112,11 @@ export default {
                     return false
                 }
             } catch (error) {
-                console.log('Ошибка получения места из БД:', error);
+                //console.log('Ошибка получения места из БД:', error);
             }
         },
         async DB_CREATE_PLACE({state}, placeData){
-            console.log('DB_CREATE_PLACE', placeData)
+            //console.log('DB_CREATE_PLACE', placeData)
             placeData.userRatings = []
             placeData.userReviews = []
             try{
@@ -126,7 +126,7 @@ export default {
             }
         },
         async DB_UPDATE_REVIEW({state, rootState}, reviewInfo){
-            console.log('DB_UPDATE_REVIEW', reviewInfo)
+            //console.log('DB_UPDATE_REVIEW', reviewInfo)
             if(reviewInfo.mode === 'add'){
                 const review = {
                     date: new Date().toLocaleDateString(),

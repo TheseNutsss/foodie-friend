@@ -95,7 +95,7 @@ export default {
                     //console.log('User denied location permission.');
                     resolve(false);
                   } else {
-                    console.log('Error getting location:', error.message);
+                    //console.log('Error getting location:', error.message);
                     setTimeout(() => {
                       getUserLocation(resolve, reject);
                     }, 1000); // Задержка перед следующей попыткой
@@ -226,13 +226,12 @@ export default {
             url.searchParams.set('key', API_KEY)
             url.searchParams.set('maxwidth', 1700)
             url.searchParams.set('maxheight', 900)
-            console.log(url.href)
             try {
                 const response = await axios.get(url.href)
                 //console.log("photos", res)
                 commit('SET_PLACE_PHOTO', response.data)
             } catch (error) {
-                console.log(error)
+                //console.log(error)
             }
         },
         async searchPlace({dispatch, state}, url){
@@ -251,11 +250,11 @@ export default {
                     }, 2000); // Задержка между запросами, чтобы соответствовать ограничениям API
                 }
             } catch (error) {
-                console.log(error)
+                //console.log(error)
             }
         },
         generateURL({state,dispatch}, params){
-            console.log('generateURL')
+            //console.log('generateURL')
             state.placeMarkers.length ? dispatch('removePlaceMarkers') : ''
             const baseURL = 'https://server-neon-tau.vercel.app/foodieFriend/nearbysearch/json'
             const API_KEY = process.env.VUE_APP_API_KEY
@@ -264,7 +263,6 @@ export default {
             url.searchParams.set('type', params.type)
             url.searchParams.set('radius', params.radius)
             url.searchParams.set('key', API_KEY)
-            console.log(decodeURIComponent(url))
             return url
         },
         async getPlaceDetails({commit, state}){
@@ -279,12 +277,12 @@ export default {
                 const data = await response.data.result
                 commit('SET_PLACE_DETAILS', data)
             } catch (error) {
-                console.log(error)
+                //console.log(error)
             }
             commit('SET_PLACE_LOADING')
         },
         async newUserLocation({state, commit, dispatch, rootState}){
-            console.log('newUserLocation', state.mapInstance)
+            //console.log('newUserLocation', state.mapInstance)
             const listener = state.mapInstance.addListener("click", async (event) => {
                 commit('SET_USER_LOCATION', {latitude: event.latLng.lat(), longitude: event.latLng.lng()})
                 await dispatch('setLocationInDB', {latitude: event.latLng.lat(), longitude: event.latLng.lng()});
@@ -293,21 +291,21 @@ export default {
                 state.googleInstance.maps.event.removeListener(listener)
                 commit('SET_EDIT_USER_LOCATION_LISTENER', null)
             });
-            console.log(listener)
+            //console.log(listener)
             commit('SET_EDIT_USER_LOCATION_LISTENER', listener)
-            console.log(state.editUserLocationListener)
+            //console.log(state.editUserLocationListener)
         },
         removeEditUserLocationListener({state,commit}){
             state.googleInstance.maps.event.removeListener(state.editUserLocationListener)
             commit('SET_EDIT_USER_LOCATION_LISTENER', null)
-            console.log(state.editUserLocationListener)
+            //console.log(state.editUserLocationListener)
         },
         removePlaceMarkers({commit, state}){
             state.placeMarkers.forEach(marker => {
                 marker.setMap(null)
             })
             commit('SET_PLACE_MARKERS', null)
-            console.log(state.placeMarkers)
+            //console.log(state.placeMarkers)
         }
     }
 }

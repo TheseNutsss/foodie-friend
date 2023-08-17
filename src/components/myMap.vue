@@ -79,9 +79,9 @@ export default {
           center: { lat: 49.149826, lng: 32.283336 },
           zoom: 8,
         });
-        this.SET_MAP(map)
+        await this.SET_MAP(map)
+        await this.SET_GOOGLE(google)
       } catch (error) {
-
       }
       this.SET_MAP_LOADING()
     },
