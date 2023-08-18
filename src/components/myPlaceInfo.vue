@@ -188,9 +188,9 @@ export default {
 .height {
     height: 90vh;
 }
-@media screen and (max-width: 860px) {
+/* @media screen and (max-width: 860px) {
   .height{
     height: auto;
   }   
-}
+} */
 </style>
