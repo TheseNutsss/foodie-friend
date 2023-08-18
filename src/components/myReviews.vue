@@ -12,13 +12,15 @@
             <v-expand-transition v-else>
             <v-list class="bg-transparent mx-5">
             <v-list-item
-                v-for="review in reviews"
+                v-for="(review, i) in reviews"
                 :prepend-avatar="review.userData.userAvatar"
                 :title="review.userData.authorName"
-                :subtitle="review.body"
                 max-width="1000"
-                class="mb-2"        
+                class="mb-2 comment"
+                :key="i"
+                @click="toggleOverflow(i)"
             >
+            <v-list-item-subtitle class="subtitle" :data-comment="i">{{review.body}}</v-list-item-subtitle>
             <template v-slot:append>
                 <div class="d-flex">
                     <span class="text-black text-caption d-flex justify-center align-center">
@@ -93,6 +95,12 @@ export default {
                 }
             })
             this.SET_LOADING_REVIEWS_AND_RATINGS()
+        },
+        toggleOverflow(i){
+            console.log("+")
+            const comment = document.querySelector(`[data-comment="${i}"]`)
+            console.log(comment)
+            comment.classList.toggle('visible')
         }
     },
     watch: {
@@ -111,5 +119,11 @@ export default {
 </script>
 
 <style>
-
+.visible{
+    display: block !important;
+    overflow: visible !important;
+}
+.subtitle{
+    display: none;
+}
 </style>
