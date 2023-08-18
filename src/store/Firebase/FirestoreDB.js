@@ -74,8 +74,6 @@ export default {
                     const fieldToUpdate = userData.find((obj)=> obj.hasOwnProperty(key))
                     fieldToUpdate[key] = value;
                     }
-                    console.log(userData)
-
                     // Обновляем поле userData в документе
                     await updateDoc(docRef, { userData });
                 } else {
@@ -87,6 +85,7 @@ export default {
             }
         },
         subscribeToUserChanges({commit, state}, userEmail) {
+            console.log("subscribeToUserChanges")
             // Создаем подписку на изменения документа пользователя
             const subscribe = onSnapshot(doc(db, "Users", userEmail), (doc) => {
                 // Обновляем данные пользователя в хранилище Vuex
@@ -128,13 +127,15 @@ export default {
         async DB_UPDATE_REVIEW({state, rootState}, reviewInfo){
             //console.log('DB_UPDATE_REVIEW', reviewInfo)
             if(reviewInfo.mode === 'add'){
+                const name = (rootState.auth.user.userData.find((data)=> Object.keys(data).join('')=="Имя"))['Имя']
+                console.log(name)
                 const review = {
                     date: new Date().toLocaleDateString(),
                     time: new Date().toLocaleTimeString(),
                     body: reviewInfo.body,
                     rating: reviewInfo.rating,
                     userData: {
-                        authorName: rootState.auth.user.name || 'Аноним',
+                        authorName: name || 'Аноним',
                         userAvatar: rootState.auth.user.photo_URL
                     },
                 }

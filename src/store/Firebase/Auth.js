@@ -8,6 +8,7 @@ export default {
     },
     mutations: {
         SET_USER(state, user){
+            console.log('set_user')
             state.user = user
         },
         SET_AUTH(state, payload){
