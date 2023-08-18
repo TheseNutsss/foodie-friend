@@ -41,8 +41,8 @@
                     ({{ placeInfo.user_ratings_total }})
                 </span>
             </v-card-subtitle>
-            <v-card-text>
-                <v-carousel show-arrows="hover" class="fill-height" v-if="placePhoto.length">
+            <v-card-text class="height-carousel">
+                <v-carousel show-arrows="hover" v-if="placePhoto.length">
                     <v-carousel-item v-for="(slide, i) in placePhoto"
                         :src="slide"
                         contain
@@ -187,6 +187,9 @@ export default {
 }
 .height {
     height: 90vh;
+}
+.height-carousel{
+    max-height: 800px;
 }
 /* @media screen and (max-width: 860px) {
   .height{
