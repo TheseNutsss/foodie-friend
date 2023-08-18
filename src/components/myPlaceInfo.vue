@@ -4,7 +4,7 @@
     transition="dialog-top-transition"
     >
         <v-card
-        class=""
+        class="height"
         > <v-overlay
           v-model="isLoadingPlace"
           contained
@@ -41,7 +41,7 @@
                     ({{ placeInfo.user_ratings_total }})
                 </span>
             </v-card-subtitle>
-            <v-card-text class="height">
+            <v-card-text>
                 <v-carousel show-arrows="hover" class="fill-height" v-if="placePhoto.length">
                     <v-carousel-item v-for="(slide, i) in placePhoto"
                         :src="slide"
